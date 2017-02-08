@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddLocationXToUserMessagesTable extends Migration
+class CreateStoresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,11 @@ class AddLocationXToUserMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::table('user_messages', function (Blueprint $table) {
-            $table->string('location_x','25');
+        Schema::create('stores', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('store_name',25);
+            $table->string('store_address',255);
+            $table->timestamps();
         });
     }
 
@@ -24,8 +27,7 @@ class AddLocationXToUserMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::table('user_messages', function (Blueprint $table) {
-            $table ->dropColumn('location_x');
-        });
+        //
+        Schema::drop('user_messages');
     }
 }
