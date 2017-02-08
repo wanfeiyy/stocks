@@ -26,6 +26,8 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
+Route::get('/store', 'StoreController@index');
+
 Route::group(['prefix'=>'api','namespace'=>'Api','middleware'=>['selectDB','compatible','sign']],function(){
 
 });

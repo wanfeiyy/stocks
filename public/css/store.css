@@ -1,0 +1,22 @@
+.from_group_my .control-label {
+  text-align: left; }
+
+.from_group_my .col-sm-2 {
+  width: 10%; }
+
+.from_group_my .col-sm-10 {
+  width: 90%; }
+
+.from_group_my .col-sm-offset-2 {
+  text-align: center;
+  margin-left: 0;
+}
+
+.from_group_my .col-sm-offset-2 .btn-primary {
+  width: 30%;
+}
+.from_group_my .form-group{
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+/*# sourceMappingURL=store.css.map */

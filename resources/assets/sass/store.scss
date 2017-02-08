@@ -1,0 +1,17 @@
+.from_group_my {
+  .control-label {
+    text-align: left;
+  }
+  .col-sm-2 {
+    width:10%;
+  }
+  .col-sm-10 {
+    width:90%;
+  }
+  .col-sm-offset-2 {
+    margin-left: 50%;
+    .btn-primary {
+      width: 30%;
+    }
+  }
+}

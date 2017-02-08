@@ -1,0 +1,1 @@
+{"version":3,"sources":["store.scss"],"names":[],"mappings":"AACE;EACE,iBAAiB,EAClB;;AAHH;EAKI,WAAU,EACX;;AANH;EAQI,WAAU,EACX","file":"store.css","sourcesContent":[".from_group_my {\r\n  .control-label {\r\n    text-align: left;\r\n  }\r\n  .col-sm-2 {\r\n    width:10%;\r\n  }\r\n  .col-sm-10 {\r\n    width:10%;\r\n  }\r\n}"]}
