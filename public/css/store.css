@@ -15,8 +15,17 @@
 .from_group_my .col-sm-offset-2 .btn-primary {
   width: 30%;
 }
-.from_group_my .form-group{
+.list_store,.from_group_my .form-group{
   margin-top: 60px;
   margin-bottom: 60px;
+}
+.list_store {
+  margin-right: 0;
+}
+.list_store .pagination{
+  float: right;
+}
+.list_store .do_del span{
+  cursor: pointer;
 }
 /*# sourceMappingURL=store.css.map */

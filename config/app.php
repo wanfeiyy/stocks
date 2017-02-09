@@ -160,7 +160,7 @@ return [
          * Custom Service Provider
          */
         App\Providers\ValidatorResultProvider::class,
-
+        App\Providers\ComposerServiceProvider::class
     ],
 
     /*

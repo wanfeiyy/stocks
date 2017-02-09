@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="臻益家-库存管理系统">
-    <meta name="author" content="junly">
+    <meta name="author" content="wanfeiyy">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="/favicon.ico">
     <title>@yield('title')</title>
     <!-- Bootstrap core CSS -->
@@ -25,21 +26,23 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="/">首页</a>
+                @foreach ($navs as $nav)
+                <li class="{{count($nav['children']) ? 'dropdown' : ''}}">
+                    <a href="{{$nav['url']}}" {{count($nav['children']) ? "class=dropdown-toggle data-toggle=dropdown role=button aria-haspopup=true aria-expanded=false" :''}}>{{$nav['name']}}
+                    @if (count($nav['children']))
+                            <span class="caret"></span>
+                    @endif
+                    </a>
+                    @if (count($nav['children']))
+                    @foreach ($nav['children'] as $child)
+                            <ul class="dropdown-menu">
+                                <li><a href="{{$child['url']}}">{{$child['name']}}</a></li>
+                            </ul>
+                    @endforeach
+                    @endif
                 </li>
-                <li >
-                    <a href="/stocks/storage">入库</a>
-                </li>
-                <li >
-                    <a href="/stocks/stock">库存</a>
-                </li>
-                <li  >
-                    <a href="/sales/delivering">出库</a>
-                </li>
-                <li  >
-                    <a href="/sales/index">流水</a>
-                </li>
+                @endforeach
+
             </ul>
             <!-- <form class="navbar-form navbar-right">
                 <input type="text" class="form-control" placeholder="Search..." />
@@ -49,6 +52,7 @@
 </nav>
 @yield('content')
 <script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 @yield('js')
 </body>
 </html>

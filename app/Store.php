@@ -33,4 +33,14 @@ class Store extends Model
         $this->store_address = $data['address'];
         return $this->save();
     }
+
+    public function getStore($limit)
+    {
+        return $this->paginate($limit);
+    }
+
+    public function del($id)
+    {
+        return $this->destroy($id);
+    }
 }

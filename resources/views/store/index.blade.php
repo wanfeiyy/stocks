@@ -1,3 +1,7 @@
+@section('title')
+    {{'店铺添加'}}
+@endsection
+
 @extends('layouts.stocks')
 
 @section('css')
