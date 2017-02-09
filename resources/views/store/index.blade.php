@@ -16,13 +16,9 @@
             <div class="col-sm-9 col-sm-offset-2 col-md-10 col-md-offset-1">
                 <h2 class="page-header">店铺添加</h2>
                 @if (count($errors) > 0)
-                <div class="alert-warning error_info ">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+                    @foreach ($errors->all() as $error)
+                        <div class="alert-warning error_info alert">{{ $error }}</div>
+                    @endforeach
                 @endif
                 <form class="form-horizontal from_group_my" action="store" method="POST">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -53,6 +49,10 @@
 @section('js')
     <script>
         $(function () {
+            if ($('.error_info').hasClass('alert')) {
+                $('.error_info').fadeOut(5000);
+            }
+
             $('.add-store').click(function () {
                 $('.from_group_my').submit();
             })

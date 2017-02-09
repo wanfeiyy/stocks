@@ -2,3 +2,5 @@
 /readme.md
 .env
 /vendor/
+.htaccess
+/node_modules/

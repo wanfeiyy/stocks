@@ -12,7 +12,8 @@
 
 <div class="row list_store">
     <div class="col-sm-9 col-sm-offset-2 col-md-10 col-md-offset-1">
-        <h2 class="page-header">店铺列表</h2>
+        <h2 class="page-header">店铺列表 <a href="/store"><button type="button" class="btn btn-info add-store">添加店铺</button></a></h2>
+        @if (count($stores))
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -42,6 +43,11 @@
             </table>
             {!! $stores->links() !!}
         </div>
+        @else
+        <h3>
+            暂无店铺数据
+        </h3>
+        @endif
     </div>
 
 </div>
@@ -58,40 +64,93 @@
             var id = tr.find('td:first').attr('id')
             var csrf = '{{csrf_token()}}'
             swal({
-                        title: "确定要删除?",
-                        text: "删除将不能恢复!",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "确定！",
-                        cancelButtonText:'取消！',
-                        closeOnConfirm: false
+                title: "确定要删除?",
+                text: "删除将不能恢复!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "确定！",
+                cancelButtonText:'取消！',
+                loseOnConfirm: false
+            },function(){
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    function(){
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            url: "/store/"+id,
-                            global: false,
-                            type: "POST"
-                        });
-                        $.ajax({
-                            data:'_method=delete&_token='+csrf,
-                            success: function(msg){
-                                if (msg.code == 0000) {
-                                    swal("删除成功", "", "success");
-                                    setTimeout('swal.close()',800);
-                                    tr.remove();
-                                } else {
-                                    swal("删除失败", "", "error");
-                                    setTimeout('swal.close()',800);
-                                }
-                            }
-                        });
+                    url: "/store/"+id,
+                    global: false,
+                    type: "POST"
+                });
+                $.ajax({
+                    data:'_method=delete&_token='+csrf,
+                    success: function(msg){
+                        if (msg.code == '0000') {
+                            swal("删除成功", "", "success");
+                            setTimeout('swal.close()',800);
+                            tr.remove();
+                        } else {
+                            swal("删除失败", "", "error");
+                            setTimeout('swal.close()',800);
+                        }
+                    }
+                });
 
-                    });
             });
+        });
+        $('.do_del .label-info').click(function () {
+            var tr = $(this).parents('tr')
+            var id = tr.find('td:first').attr('id')
+            $.get('/store/'+id,function (msg) {
+                var name = msg.store_name;
+                var address = msg.store_address;
+                var store_id = msg.id;
+                swal({
+                    title:"店铺编辑",
+                    html:true,
+                    showConfirmButton:false,
+                    text:' <form  class="edit-store"  action="'+store_id+'" method="POST">\
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">\
+                    <input type="hidden" name="_method" value="put">\
+                        <div class="form-group">\
+                            <label for="inputEmail3" class="">店铺名称</label>\
+                            <input value='+name+' type="text" class="" name="name" id="inputEmail3" placeholder="">\
+                        </div>\
+                        <div class="form-group">\
+                            <label for="inputPassword3" class="">店铺地址</label>\
+                            <input value='+address+' type="text" class="" name="address" id="inputPassword3" placeholder="">\
+                        </div>\
+                        <div class="button">\
+                        <span type="button" class="btn btn-primary edit-store">保存</span>\
+                        </div>\
+                        </form>'
+                })
+            })
+        })
+      $('body').on('click','.edit-store .edit-store',function (event) {
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              url: "/store/"+$('.edit-store').attr('action'),
+              global: false,
+              type: "POST"
+          });
+          $.ajax({
+              data:$('.edit-store').serialize(),
+              success: function(msg){
+                  if (msg.code == '0000') {
+                      swal("修改成功", "", "success");
+                      swal.close()
+                      //setTimeout('',800);
+                      window.location.reload(true);
+                  } else {
+                      swal("修改失败", "", "error");
+                      setTimeout('swal.close()',800);
+                  }
+              }
+          });
+      })
+
 
     })
 

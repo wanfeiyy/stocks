@@ -51,4 +51,19 @@ class StoreController extends Controller
         return response()->json(['code'=>1000,'error'=>'删除失败']);
     }
 
+    public function show($id)
+    {
+        return response()->json($this->_store->getById($id));
+    }
+
+    public function update($id,Request $request)
+    {
+        $data = $request->all();
+        $data['id'] = $id;
+        if ($this->_store->editById($data)) {
+            return response()->json(['code'=>0000,'message'=>'']);
+        }
+        return response()->json(['code'=>1000,'error'=>'修改失败']);
+    }
+
 }

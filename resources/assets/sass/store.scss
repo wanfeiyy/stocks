@@ -15,3 +15,31 @@
     }
   }
 }
+.list_store,.from_group_my .form-group{
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+.list_store {
+  margin-right: 0;
+  .pagination{
+    float: right;
+  }
+  .do_del span{
+    cursor: pointer;
+  }
+  .add-store {
+    float: right;
+  }
+}
+.sweet-alert {
+  h2 {
+    color:#615f5f;
+    letter-spacing: 20px;
+  }
+  .form-group {
+    text-align: left;
+  }
+  input {
+    display: block;
+  }
+}

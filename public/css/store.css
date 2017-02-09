@@ -28,4 +28,22 @@
 .list_store .do_del span{
   cursor: pointer;
 }
+.list_store .add-store {
+  float: right;
+}
+
+.edit-store .form-group {
+  text-align: left !important;
+}
+.edit-store input {
+  display: block !important;
+}
+.edit-store .button {
+  text-align: center;
+
+}
+.edit-store .button span {
+  width:125px;
+
+}
 /*# sourceMappingURL=store.css.map */

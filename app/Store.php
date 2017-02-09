@@ -14,6 +14,8 @@ class Store extends Model
 {
     protected $fillable = ['store_name','store_address'];
 
+    protected $hidden = ['updated_at'];
+
     public function Validate($data)
     {
         $message = [
@@ -42,5 +44,18 @@ class Store extends Model
     public function del($id)
     {
         return $this->destroy($id);
+    }
+
+    public function getById($id)
+    {
+        return $this->findOrFail($id);
+    }
+
+    public function editById($data)
+    {
+        $store = $this->find($data['id']);
+        $store->store_name = $data['name'];
+        $store->store_address = $data['address'];
+        return $store->save();
     }
 }
