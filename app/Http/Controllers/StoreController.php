@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Store;
-use DB;
 
 class StoreController extends Controller
 {
@@ -19,11 +18,6 @@ class StoreController extends Controller
 
     public function index()
     {
-//        DB::connection();
-//        DB::enableQueryLog();
-//        $a = Store::with('stocks')->get();
-//        dd(DB::getQueryLog());
-//        dd($a);
        return view('store.index');
     }
 

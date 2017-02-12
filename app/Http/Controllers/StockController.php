@@ -21,10 +21,13 @@ class StockController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return view('stock.list');
+        $store = new Store();
+        $data = $this->_stock->getPage($request->all());
+        $stores = $store->getAll();
+        return view('stock.list',['goods'=>$data,'stores'=>$stores]);
     }
 
     /**

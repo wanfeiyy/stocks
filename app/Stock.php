@@ -9,12 +9,18 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Validator;
+use DB;
+use App\Custom\WithOnly;
 
 class Stock extends Model
 {
+    use WithOnly;
+
     protected $fillable = ['name','sku','price','color','image','thumb','store_id','qty'];
 
-    public function Store()
+    protected $hidden = ['updated_at'];
+
+    public function store()
     {
         return $this->belongsTo('App\Store');
     }
@@ -22,6 +28,16 @@ class Stock extends Model
     public function add($data)
     {
         return $this->create($data);
+    }
+
+
+    public function getPage($wheres)
+    {
+        $where = [];
+        isset($wheres['sku']) && $wheres['sku'] && $where['sku'] = $wheres['sku'];
+        isset($wheres['color']) && $wheres['color'] && $where['color'] = $wheres['color'];
+        isset($wheres['store_id']) && $wheres['store_id'] && $where['store_id'] = $wheres['store_id'];
+        return $this->withOnly('store',['store_name'])->where($where)->paginate(3);
     }
 
 
