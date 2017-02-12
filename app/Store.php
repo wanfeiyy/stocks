@@ -16,6 +16,11 @@ class Store extends Model
 
     protected $hidden = ['updated_at'];
 
+    public function Stocks()
+    {
+        return $this->hasMany('App\Stock');
+    }
+
     public function Validate($data)
     {
         $message = [
@@ -57,5 +62,10 @@ class Store extends Model
         $store->store_name = $data['name'];
         $store->store_address = $data['address'];
         return $store->save();
+    }
+
+    public function getAll()
+    {
+        return $this->all();
     }
 }

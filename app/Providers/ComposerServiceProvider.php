@@ -16,7 +16,7 @@ class ComposerServiceProvider extends ServiceProvider
     {
         // 使用对象型态的视图组件...
         View::composer(
-            'layouts.stocks', 'App\Http\ViewComposers\NavComposer'
+            'layouts.header', 'App\Http\ViewComposers\NavComposer'
         );
     }
 

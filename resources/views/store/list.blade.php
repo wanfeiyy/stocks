@@ -2,7 +2,7 @@
     {{'店铺列表'}}
 @endsection
 
-@extends('layouts.stocks')
+@extends('layouts.header')
 
 @section('css')
     <link href="/css/store.css" rel="stylesheet">
@@ -73,14 +73,8 @@
                 cancelButtonText:'取消！',
                 loseOnConfirm: false
             },function(){
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: "/store/"+id,
-                    global: false,
-                    type: "POST"
-                });
+                var url = "/store/"+id;
+                ajax(url);
                 $.ajax({
                     data:'_method=delete&_token='+csrf,
                     success: function(msg){
@@ -127,21 +121,14 @@
             })
         })
       $('body').on('click','.edit-store .edit-store',function (event) {
-          $.ajaxSetup({
-              headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              },
-              url: "/store/"+$('.edit-store').attr('action'),
-              global: false,
-              type: "POST"
-          });
+          var url = "/store/"+$('.edit-store').attr('action');
+          ajax(url);
           $.ajax({
               data:$('.edit-store').serialize(),
               success: function(msg){
                   if (msg.code == '0000') {
                       swal("修改成功", "", "success");
-                      swal.close()
-                      //setTimeout('',800);
+                      setTimeout('swal.close()',800);
                       window.location.reload(true);
                   } else {
                       swal("修改失败", "", "error");
