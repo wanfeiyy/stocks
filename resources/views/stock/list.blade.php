@@ -90,14 +90,11 @@
 @endsection
 
 @section('js')
-    <script src="//cdn.bootcss.com/jquery-cookie/1.4.0/jquery.cookie.min.js"></script>
     <script>
         $(function () {
 
-
             $('.submit-search').click(function () {
                 $wheres = $('.search form').serialize();
-                $.cookie('searh',$wheres);
                 window.location.href('/stock?'+$wheres);
             })
         })
