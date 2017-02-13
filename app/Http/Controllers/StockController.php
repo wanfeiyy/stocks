@@ -27,7 +27,8 @@ class StockController extends Controller
         $store = new Store();
         $data = $this->_stock->getPage($request->all());
         $stores = $store->getAll();
-        return view('stock.list',['goods'=>$data,'stores'=>$stores]);
+        list($goods,$search) = $data;
+        return view('stock.list',['goods'=>$goods,'stores'=>$stores,'search'=>$search]);
     }
 
     /**

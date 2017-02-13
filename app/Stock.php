@@ -37,7 +37,9 @@ class Stock extends Model
         isset($wheres['sku']) && $wheres['sku'] && $where['sku'] = $wheres['sku'];
         isset($wheres['color']) && $wheres['color'] && $where['color'] = $wheres['color'];
         isset($wheres['store_id']) && $wheres['store_id'] && $where['store_id'] = $wheres['store_id'];
-        return $this->withOnly('store',['store_name'])->where($where)->paginate(3);
+        $list = $this->withOnly('store',['store_name'])->where($where)->OrderBy('created_at','desc')->paginate(2);
+        $list->appends($where);
+        return [$list,$where];
     }
 
 

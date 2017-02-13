@@ -27,18 +27,18 @@
                         <select class="form-control" name="store_id" name="store_id">
                             <option value="0">所有店铺</option>
                             @foreach ($stores as $store)
-                                <option value="{{$store->id}}">{{$store->store_name}}</option>
+                                <option value="{{$store->id}}" {{isset($search['store_id']) && $search['store_id'] == $store->id ?'selected':'' }}>{{$store->store_name}}</option>
                             @endforeach
 
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="sr-only" for="exampleInputEmail3">货号</label>
-                        <input type="text" name="sku" class="form-control" id="exampleInputEmail3" placeholder="货号">
+                        <input type="text" value="{{isset($search['sku']) ? $search['sku'] : ''}}" name="sku" class="form-control" id="exampleInputEmail3" placeholder="货号">
                     </div>
                     <div class="form-group">
                         <label class="sr-only" for="exampleInputPassword3">颜色</label>
-                        <input type="text" name="color" class="form-control" id="exampleInputPassword3" placeholder="颜色">
+                        <input type="text" value="{{isset($search['color']) ? $search['color'] : ''}}" name="color" class="form-control" id="exampleInputPassword3" placeholder="颜色">
                     </div>
 
                     <button type="submit" class="btn btn-default sumbit-search">搜索</button>
@@ -46,10 +46,7 @@
                 </div>
             </h2>
 
-
-
-
-
+            @if (count($goods) && count($stores))
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
@@ -83,6 +80,9 @@
                     </table>
                     {!! $goods->links() !!}
                 </div>
+            @else
+                <h3>暂无数据</h3>
+            @endif
         </div>
 
     </div>
@@ -90,10 +90,14 @@
 @endsection
 
 @section('js')
+    <script src="//cdn.bootcss.com/jquery-cookie/1.4.0/jquery.cookie.min.js"></script>
     <script>
         $(function () {
+
+
             $('.submit-search').click(function () {
                 $wheres = $('.search form').serialize();
+                $.cookie('searh',$wheres);
                 window.location.href('/stock?'+$wheres);
             })
         })

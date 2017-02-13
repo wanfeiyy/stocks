@@ -3,6 +3,8 @@
     {{'商品添加 '}}
 @endsection
 
+@extends('layouts.notice')
+
 @extends('layouts.header')
 
 @section('css')
@@ -11,11 +13,12 @@
 @endsection
 
 @section('content')
-    @extends('layouts.notice')
+
     @section('h2_content')
         {{'商品添加'}}
     @endsection
     @section('form')
+        @if (count($stores))
         <form class="form-horizontal add-pro" action="/stock" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="form-group">
@@ -78,8 +81,12 @@
             </div>
         </form>
     @endsection
+    @else
+        <h3>请先至少添加一个店铺 <a href="/store">添加店铺</a></h3>
+    @endif
 @endsection
-@section('js')
+
+@section('notice_js')
     <script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap-fileinput/4.3.3/js/fileinput.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap-fileinput/4.3.3/js/locales/zh.min.js"></script>
