@@ -9,8 +9,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Validator;
-use DB;
 use App\Custom\WithOnly;
+use DB;
 
 class Stock extends Model
 {
@@ -50,10 +50,9 @@ class Stock extends Model
         $store->color = $data['color'];
         $store->qty = $data['qty'];
         isset($data['thumb']) && $data['thumb'] && $store->thumb = $data['thumb'];
-        isset($data['image']) && $data['image'] && $store->thumb = $data['image'];
+        isset($data['image']) && $data['image'] && $store->image = $data['image'];
         return $store->save();
     }
-
 
     public function getPage($wheres)
     {
@@ -61,11 +60,19 @@ class Stock extends Model
         isset($wheres['sku']) && $wheres['sku'] && $where['sku'] = $wheres['sku'];
         isset($wheres['color']) && $wheres['color'] && $where['color'] = $wheres['color'];
         isset($wheres['store_id']) && $wheres['store_id'] && $where['store_id'] = $wheres['store_id'];
+        isset($wheres['id']) && $wheres['id'] && $where['id'] = $wheres['id'];
         $list = $this->withOnly('store',['store_name'])->where($where)->OrderBy('created_at','desc')->paginate(6);
         $list->appends($where);
         return [$list,$where];
     }
 
+    public function incrementQty($id,$qty)
+    {
+       $result = DB::transaction(function () use($id, $qty){
+            return DB::table('stocks')->where('id',$id)->decrement('qty',$qty);
+        });
+       return $result;
+    }
 
     public function Validate($data)
     {

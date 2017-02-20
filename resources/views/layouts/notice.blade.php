@@ -9,7 +9,6 @@
             @endforeach
         @endif
         @yield('form')
-        <div style="margin: 25px 0 0;border-bottom: 1px solid #eee;"></div>
     </div>
 </div>
 </div>

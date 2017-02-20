@@ -9,14 +9,22 @@
 
 
 
+
 @extends('layouts.header')
 
 
 @section('content')
     <div style="margin: 40px 0 0;"></div>
+
     <div class="row list_store">
+
         <div class="col-sm-9 col-sm-offset-2 col-md-10 col-md-offset-1">
-            <h2 class="page-header">店铺列表
+            @if (count($errors) > 0)
+                @foreach ($errors->all() as $error)
+                    <div class="alert-warning error_info alert">{{ $error }}</div>
+                @endforeach
+            @endif
+            <h2 class="page-header">商品列表
                 <a href="/stock/create">
                     <button type="button" class="btn btn-info add-store">添加商品</button>
                 </a>
@@ -73,6 +81,7 @@
                                     <td>{{$good->created_at}}</td>
                                     <td>
                             <span href="" class="do_del" style="text-decoration:none;">
+                                <span class="label label-info qty-stock">出库</span>
                                 <span class="label label-info">编辑</span>
                                 <span class="label label-danger">删除</span>
                             </span>
@@ -108,6 +117,12 @@
                 var tr = $(this).parents('tr')
                 var id = tr.find('td:first').attr('id')
                 window.location.href = '/stock/'+id+'/edit';
+            })
+
+            $('.do_del .qty-stock').click(function () {
+                var tr = $(this).parents('tr')
+                var id = tr.find('td:first').attr('id')
+                window.location.href = '/qty/stock/'+id;
             })
         })
     </script>
