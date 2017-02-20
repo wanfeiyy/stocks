@@ -56,6 +56,7 @@
                             <th>店铺</th>
                             <th>货号</th>
                             <th>颜色</th>
+                            <th>库存</th>
                             <th>添加时间</th>
                             <th>操作</th>
                         </tr>
@@ -63,11 +64,12 @@
                         <tbody>
                             @foreach ($goods as $good)
                                 <tr>
-                                    <td id=""><img width="60px" src = {{$good->thumb}}></td>
+                                    <td id="{{$good->id}}"><img width="60px" src = {{$good->thumb}}></td>
                                     <td id="">{{$good->name}}</td>
                                     <td id="">{{$good->store->store_name}}</td>
                                     <td>{{$good->sku}}</td>
                                     <td>{{$good->color}}</td>
+                                    <td>{{$good->qty}}</td>
                                     <td>{{$good->created_at}}</td>
                                     <td>
                             <span href="" class="do_del" style="text-decoration:none;">
@@ -90,12 +92,22 @@
 @endsection
 
 @section('js')
+    <script src="/alert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/alert/dist/sweetalert.css">
     <script>
         $(function () {
-
             $('.submit-search').click(function () {
                 $wheres = $('.search form').serialize();
-                window.location.href('/stock?'+$wheres);
+                window.location.href ='/stock?'+$wheres;
+            })
+
+            var csrf = '{{csrf_token()}}'
+            swalDel('.do_del .label-danger','/stock/',csrf);
+
+            $('.do_del .label-info').click(function () {
+                var tr = $(this).parents('tr')
+                var id = tr.find('td:first').attr('id')
+                window.location.href = '/stock/'+id+'/edit';
             })
         })
     </script>

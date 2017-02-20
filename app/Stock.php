@@ -30,6 +30,30 @@ class Stock extends Model
         return $this->create($data);
     }
 
+    public function getById($id)
+    {
+        return $this->findOrFail($id);
+    }
+
+    public function del($id)
+    {
+        return $this->destroy($id);
+    }
+
+    public function editById($data)
+    {
+        $store = $this->find($data['id']);
+        $store->name = $data['name'];
+        $store->sku = $data['sku'];
+        $store->price = $data['price'];
+        $store->store_id = $data['store_id'];
+        $store->color = $data['color'];
+        $store->qty = $data['qty'];
+        isset($data['thumb']) && $data['thumb'] && $store->thumb = $data['thumb'];
+        isset($data['image']) && $data['image'] && $store->thumb = $data['image'];
+        return $store->save();
+    }
+
 
     public function getPage($wheres)
     {
@@ -37,7 +61,7 @@ class Stock extends Model
         isset($wheres['sku']) && $wheres['sku'] && $where['sku'] = $wheres['sku'];
         isset($wheres['color']) && $wheres['color'] && $where['color'] = $wheres['color'];
         isset($wheres['store_id']) && $wheres['store_id'] && $where['store_id'] = $wheres['store_id'];
-        $list = $this->withOnly('store',['store_name'])->where($where)->OrderBy('created_at','desc')->paginate(2);
+        $list = $this->withOnly('store',['store_name'])->where($where)->OrderBy('created_at','desc')->paginate(6);
         $list->appends($where);
         return [$list,$where];
     }

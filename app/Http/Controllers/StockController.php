@@ -12,9 +12,12 @@ class StockController extends Controller
 {
     private $_stock;
 
-    public function __construct(Stock $stock)
+    private $_store;
+
+    public function __construct(Stock $stock,Store $store)
     {
         $this->_stock = $stock;
+        $this->_store = $store;
     }
     /**
      * Display a listing of the resource.
@@ -24,9 +27,8 @@ class StockController extends Controller
     public function index(Request $request)
     {
         //
-        $store = new Store();
         $data = $this->_stock->getPage($request->all());
-        $stores = $store->getAll();
+        $stores = $this->_store->getAll();
         list($goods,$search) = $data;
         return view('stock.list',['goods'=>$goods,'stores'=>$stores,'search'=>$search]);
     }
@@ -38,8 +40,7 @@ class StockController extends Controller
      */
     public function create()
     {
-        $store = new Store();
-        $data = $store->getAll();
+        $data = $this->_store->getAll();
         return view('stock.index',['stores'=>$data]);
     }
 
@@ -58,7 +59,7 @@ class StockController extends Controller
         }
         $result = $this->_stock->add($data);
         if ($result) {
-            return redirect('stock');
+            return redirect('stock/create')->with('status', '保存商品成功!');
         } else {
             return redirect('stock/create')->withErrors(['保存失败']);
         }
@@ -84,6 +85,9 @@ class StockController extends Controller
     public function edit($id)
     {
         //
+        $stores = $this->_store->getAll();
+        $datas = $this->_stock->getById($id);
+        return view('stock.edit',['stores'=>$stores,'datas'=>$datas,'id'=>$id]);
     }
 
     /**
@@ -96,6 +100,17 @@ class StockController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = $request->all();
+        $validator = $this->_stock->Validate($data);
+        if ($validator->fails()) {
+            return redirect('stock/'.$id.'/edit') ->withErrors($validator) ->withInput();
+        }
+        $result = $this->_stock->editById($data);
+        if ($result) {
+            return redirect('stock/'.$id.'/edit')->with('status', '修改成功!');;
+        } else {
+            return redirect('stock/'.$id.'/edit')->withErrors(['保存失败']);
+        }
     }
 
     /**
@@ -106,6 +121,9 @@ class StockController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if ($this->_stock->del($id)) {
+            return response()->json(['code'=>0000,'message'=>'']);
+        }
+        return response()->json(['code'=>1000,'error'=>'删除失败']);
     }
 }

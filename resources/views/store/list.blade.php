@@ -59,38 +59,8 @@
 <link rel="stylesheet" type="text/css" href="/alert/dist/sweetalert.css">
 <script>
     $(function () {
-        $('.do_del .label-danger').click(function () {
-            var tr = $(this).parents('tr')
-            var id = tr.find('td:first').attr('id')
-            var csrf = '{{csrf_token()}}'
-            swal({
-                title: "确定要删除?",
-                text: "删除将不能恢复!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "确定！",
-                cancelButtonText:'取消！',
-                loseOnConfirm: false
-            },function(){
-                var url = "/store/"+id;
-                ajax(url);
-                $.ajax({
-                    data:'_method=delete&_token='+csrf,
-                    success: function(msg){
-                        if (msg.code == '0000') {
-                            swal("删除成功", "", "success");
-                            setTimeout('swal.close()',800);
-                            tr.remove();
-                        } else {
-                            swal("删除失败", "", "error");
-                            setTimeout('swal.close()',800);
-                        }
-                    }
-                });
-
-            });
-        });
+        var csrf = '{{csrf_token()}}'
+        swalDel('.do_del .label-danger','/store/',csrf);
         $('.do_del .label-info').click(function () {
             var tr = $(this).parents('tr')
             var id = tr.find('td:first').attr('id')
@@ -120,7 +90,7 @@
                 })
             })
         })
-      $('body').on('click','.edit-store .edit-store',function (event) {
+        $('body').on('click','.edit-store .edit-store',function (event) {
           var url = "/store/"+$('.edit-store').attr('action');
           ajax(url);
           $.ajax({
